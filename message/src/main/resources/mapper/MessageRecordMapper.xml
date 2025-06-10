@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.message.mapper.MessageRecordMapper">
+
+    <insert id="insert" parameterType="com.example.message.entity.MessageRecord" useGeneratedKeys="true" keyProperty="id">
+        insert into message_record (
+		<trim suffixOverrides=",">
+			<if test="entity.phone != null and entity.phone != ''">`phone`,</if>
+			<if test="entity.content != null and entity.content != ''">`content`,</if>
+			<if test="entity.code != null">`code`,</if>
+			<if test="entity.reason != null and entity.reason != ''">`reason`,</if>
+			<if test="entity.createTime != null">`create_time`,</if>
+			<if test="entity.updateTime != null">`update_time`,</if>
+			<if test="entity.isDeleted != null">`is_deleted`,</if>
+		</trim>
+        )
+        values (
+		<trim suffixOverrides=",">
+			<if test="entity.phone != null and entity.phone != ''">#{entity.phone},</if>
+			<if test="entity.content != null and entity.content != ''">#{entity.content},</if>
+            <if test="entity.code != null">#{entity.code},</if>
+			<if test="entity.reason != null and entity.reason != ''">#{entity.reason},</if>
+            <if test="entity.createTime != null">#{entity.createTime},</if>
+            <if test="entity.updateTime != null">#{entity.updateTime},</if>
+            <if test="entity.isDeleted != null">#{entity.isDeleted},</if>
+		</trim>
+        )
+    </insert>
+	
+	<update id="update" parameterType="com.example.message.entity.MessageRecord">
+        update message_record
+        set
+		<trim suffixOverrides=",">
+			<if test="entity.phone != null and entity.phone != ''">`phone` = #{entity.phone},</if>
+			<if test="entity.content != null and entity.content != ''">`content` = #{entity.content},</if>
+			<if test="entity.code != null">`code` = #{entity.code},</if>
+			<if test="entity.reason != null and entity.reason != ''">`reason` = #{entity.reason},</if>
+			<if test="entity.createTime != null">`create_time` = #{entity.createTime},</if>
+			<if test="entity.updateTime != null">`update_time` = #{entity.updateTime},</if>
+			<if test="entity.isDeleted != null">`is_deleted` = #{entity.isDeleted},</if>
+		</trim>
+        where id = #{entity.id} limit 1
+    </update>
+
+</mapper>

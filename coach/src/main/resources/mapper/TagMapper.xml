@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.coach.mapper.TagMapper">
+
+    <insert id="insert" parameterType="com.example.coach.entity.Tag" useGeneratedKeys="true" keyProperty="id">
+        insert into tag (
+		<trim suffixOverrides=",">
+			<if test="entity.name != null and entity.name != ''">`name`,</if>
+			<if test="entity.createTime != null">`create_time`,</if>
+			<if test="entity.updateTime != null">`update_time`,</if>
+			<if test="entity.isDeleted != null">`is_deleted`,</if>
+		</trim>
+        )
+        values (
+		<trim suffixOverrides=",">
+			<if test="entity.name != null and entity.name != ''">#{entity.name},</if>
+            <if test="entity.createTime != null">#{entity.createTime},</if>
+            <if test="entity.updateTime != null">#{entity.updateTime},</if>
+            <if test="entity.isDeleted != null">#{entity.isDeleted},</if>
+		</trim>
+        )
+    </insert>
+	
+	<update id="update" parameterType="com.example.coach.entity.Tag">
+        update tag
+        set
+		<trim suffixOverrides=",">
+			<if test="entity.name != null and entity.name != ''">`name` = #{entity.name},</if>
+			<if test="entity.createTime != null">`create_time` = #{entity.createTime},</if>
+			<if test="entity.updateTime != null">`update_time` = #{entity.updateTime},</if>
+			<if test="entity.isDeleted != null">`is_deleted` = #{entity.isDeleted},</if>
+		</trim>
+        where id = #{entity.id} limit 1
+    </update>
+
+	<select id="getByNames" resultType="com.example.coach.entity.Tag">
+		select * from tag
+		where `name` in
+		<foreach collection="names" item="name" open="(" separator="," close=")">
+			#{name}
+		</foreach>
+		and is_deleted = 0
+	</select>
+
+</mapper>
