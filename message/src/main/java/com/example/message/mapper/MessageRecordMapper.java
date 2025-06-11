@@ -24,7 +24,7 @@ public interface MessageRecordMapper {
 	@Select("select * from message_record WHERE id = #{id}")
 	MessageRecord extractById(@Param("id") Long id);
 	
-	@Update("update message_record set is_deleted = 1, update_time = #{timestamp} where id = #{id} limit 1")
+	@Update("update message_record set is_deleted = 1, update_time = #{timestamp} where id = #{id} and is_deleted = 0 limit 1")
 	int delete(@Param("id") Long id, @Param("timestamp") Integer timestamp);
 
 	int insert(@Param("entity") MessageRecord entity);

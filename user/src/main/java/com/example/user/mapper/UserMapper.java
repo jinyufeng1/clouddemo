@@ -24,7 +24,7 @@ public interface UserMapper {
 	@Select("select * from user WHERE id = #{id}")
 	User extractById(@Param("id") Long id);
 	
-	@Update("update user set is_deleted = 1, update_time = #{timestamp} where id = #{id} limit 1")
+	@Update("update user set is_deleted = 1, update_time = #{timestamp} where id = #{id} and is_deleted = 0 limit 1")
 	int delete(@Param("id") Long id, @Param("timestamp") Integer timestamp);
 
 	int insert(@Param("entity") User entity);

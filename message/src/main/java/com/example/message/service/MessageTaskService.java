@@ -55,6 +55,15 @@ public class MessageTaskService {
         return 1 == mapper.delete(id, (int)timestamp);
     }
 
+    public Boolean opLock(Long id) {
+        if (null == id) {
+            throw new RuntimeException("检验乐观锁失败，id为空！");
+        }
+
+        long timestamp = System.currentTimeMillis() / 1000;
+        return 1 == mapper.opLock(id, (int)timestamp);
+    }
+
 	public Boolean insert(MessageTask entity) {
         if (null == entity) {
             throw new RuntimeException("插入失败，entity为空！");

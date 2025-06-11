@@ -45,7 +45,7 @@
 		</#if>
 		</#list>
 		</trim>
-        where id = <#noparse>#</#noparse>{entity.id} limit 1
+        where id = <#noparse>#</#noparse>{entity.id} and is_deleted = 0 limit 1
     </update>
 
 </mapper>

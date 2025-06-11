@@ -26,7 +26,7 @@ public interface TagMapper {
 	@Select("select * from tag WHERE id = #{id}")
 	Tag extractById(@Param("id") Long id);
 	
-	@Update("update tag set is_deleted = 1, update_time = #{timestamp} where id = #{id} limit 1")
+	@Update("update tag set is_deleted = 1, update_time = #{timestamp} where id = #{id} and is_deleted = 0 limit 1")
 	int delete(@Param("id") Long id, @Param("timestamp") Integer timestamp);
 
 	int insert(@Param("entity") Tag entity);

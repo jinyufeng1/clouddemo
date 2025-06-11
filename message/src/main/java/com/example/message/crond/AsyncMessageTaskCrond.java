@@ -40,6 +40,12 @@ public class AsyncMessageTaskCrond {
     }
 
     private void doTask(MessageTask task) {
+        // 加乐观锁 这里的预期值是 status == 0
+        Boolean ok = messageTaskService.opLock(task.getId());
+        if (!ok) {
+            return;
+        }
+
         String code = "";
         try {
             code = messageService.sendCode(task.getPhone());

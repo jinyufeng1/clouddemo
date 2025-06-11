@@ -89,7 +89,7 @@
         <if test="entity.intro != null and entity.intro != ''">`intro` = #{entity.intro},</if>
         <if test="entity.categoryId != null and entity.categoryId != ''">`category_id` = #{entity.categoryId},</if>
         `update_time` = #{entity.updateTime}
-        where id=#{entity.id} limit 1
+        where id=#{entity.id} and is_deleted = 0 limit 1
     </update>
 
     <select id="getByProperty" resultType="com.example.coach.entity.Coach">

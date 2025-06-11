@@ -23,7 +23,7 @@ public interface ${table.mapperName} {
 	@Select("select * from ${table.name} WHERE id = <#noparse>#</#noparse>{id}")
 	${entity} extractById(@Param("id") Long id);
 	
-	@Update("update ${table.name} set is_deleted = 1, update_time = <#noparse>#</#noparse>{timestamp} where id = <#noparse>#</#noparse>{id} limit 1")
+	@Update("update ${table.name} set is_deleted = 1, update_time = <#noparse>#</#noparse>{timestamp} where id = <#noparse>#</#noparse>{id} and is_deleted = 0 limit 1")
 	int delete(@Param("id") Long id, @Param("timestamp") Integer timestamp);
 
 	int insert(@Param("entity") ${entity} entity);

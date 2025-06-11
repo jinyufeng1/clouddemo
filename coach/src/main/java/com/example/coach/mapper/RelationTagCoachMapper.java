@@ -27,7 +27,7 @@ public interface RelationTagCoachMapper {
 	@Select("select * from relation_tag_coach WHERE id = #{id}")
 	RelationTagCoach extractById(@Param("id") Long id);
 	
-	@Update("update relation_tag_coach set is_deleted = 1, update_time = #{timestamp} where id = #{id} limit 1")
+	@Update("update relation_tag_coach set is_deleted = 1, update_time = #{timestamp} where id = #{id} and is_deleted = 0 limit 1")
 	int delete(@Param("id") Long id, @Param("timestamp") Integer timestamp);
 
 	int insert(@Param("entity") RelationTagCoach entity);

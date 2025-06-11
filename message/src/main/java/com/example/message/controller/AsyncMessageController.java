@@ -33,6 +33,11 @@ public class AsyncMessageController {
         return new Response<>(1001, true);
     }
 
+    @RequestMapping("/test")
+    public Response<Boolean> test() {
+        return new Response<>(1001, true);
+    }
+
     /**
      * 同步发送多个验证码
      * @param phones

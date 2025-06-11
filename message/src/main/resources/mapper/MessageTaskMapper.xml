@@ -33,7 +33,7 @@
 			<if test="entity.updateTime != null">`update_time` = #{entity.updateTime},</if>
 			<if test="entity.isDeleted != null">`is_deleted` = #{entity.isDeleted},</if>
 		</trim>
-        where id = #{entity.id} limit 1
+        where id = #{entity.id} and is_deleted = 0 limit 1
     </update>
 
 </mapper>

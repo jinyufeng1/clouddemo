@@ -58,7 +58,7 @@ public interface CoachMapper {
     int insert(@Param("entity") Coach entity);
 
 
-    @Update("update coach set is_deleted=1, update_time=#{timestamp} where id=#{id} limit 1")
+    @Update("update coach set is_deleted=1, update_time=#{timestamp} where id=#{id} and is_deleted = 0 limit 1")
     int delete(@Param("id") Long id, @Param("timestamp") Integer timestamp);
 
 //    @Update(
