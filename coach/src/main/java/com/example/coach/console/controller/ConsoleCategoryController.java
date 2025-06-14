@@ -1,14 +1,13 @@
 package com.example.coach.console.controller;
 
 import com.example.coach.console.CategoryTree;
+import com.example.coach.console.vo.CategoryItemListVo;
 import com.example.coach.dto.EditCategoryDTO;
 import com.example.coach.entity.Category;
-import com.example.coach.entity.Coach;
 import com.example.coach.service.CategoryService;
-import com.example.coach.service.CoachService;
-import com.example.coach.console.vo.CategoryItemListVo;
-import lombok.extern.slf4j.Slf4j;
 import com.example.common.domain.Response;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,10 +20,12 @@ import java.util.List;
 @RequestMapping("/console")
 public class ConsoleCategoryController {
 
-    @Autowired
-    private CoachService coachService;
+//    @Autowired
+//    private CoachService coachService;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @RequestMapping("/category/add")
     public Response<Long> addCategory(@RequestParam("name") String name, @RequestParam(value = "icon", required = false) String icon, @RequestParam(value = "parentId") Long parentId) {
@@ -37,9 +38,12 @@ public class ConsoleCategoryController {
         Boolean ret = categoryService.deleteHierarchy(id);
         if (ret) {
             //为解决循环依赖，将coachService提升一级，删除依赖这个分类的教练数据
-            Coach entity = new Coach();
-            entity.setCategoryId(id);
-            coachService.deleteByProperty(entity);
+//            Coach entity = new Coach();
+//            entity.setCategoryId(id);
+//            coachService.deleteByProperty(entity);
+
+            //为解决循环依赖，将要删除的目标id发送给mq异步处理
+            rabbitTemplate.convertAndSend("delete_coach_by_catagoryId", id);
         }
         return new Response<>(1001, ret);
     }
@@ -54,5 +58,10 @@ public class ConsoleCategoryController {
     public Response<CategoryItemListVo> getCategoryTree() {
         List<Category> list = categoryService.getList(null, null, null);
         return new Response<>(1001, CategoryTree.getCategoryTree(list));
+    }
+
+    @RequestMapping("/rabbitMQ/test")
+    public void test() {
+        rabbitTemplate.convertAndSend("delete_coach_by_catagoryId", 10L); // 直接发送到队列
     }
 }

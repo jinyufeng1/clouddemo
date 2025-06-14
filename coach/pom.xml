@@ -28,7 +28,6 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
-
         <dependency>
 <!--            spring-boot-dependencies spring-boot-starter-parent 会限定 mysql-connector-j 的版本号-->
             <groupId>com.mysql</groupId>
@@ -56,6 +55,10 @@
         <dependency>
             <groupId>com.example</groupId>
             <artifactId>web-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.example</groupId>
+            <artifactId>mq</artifactId>
         </dependency>
     </dependencies>
 

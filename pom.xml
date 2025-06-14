@@ -50,6 +50,7 @@
         <module>message</module>
         <module>redis</module>
         <module>user</module>
+        <module>mq</module>
     </modules>
 
     <dependencyManagement>
@@ -123,6 +124,11 @@
             <dependency>
                 <groupId>com.example</groupId>
                 <artifactId>web-common</artifactId>
+                <version>${clouddemo.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.example</groupId>
+                <artifactId>mq</artifactId>
                 <version>${clouddemo.version}</version>
             </dependency>
         </dependencies>
