@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.coach.mapper.CategoryMapper">
+
+    <insert id="insert" parameterType="com.example.objcoach.entity.Category" useGeneratedKeys="true" keyProperty="id">
+        insert into category (
+		<trim suffixOverrides=",">
+			<if test="entity.name != null and entity.name != ''">`name`,</if>
+			<if test="entity.pic != null and entity.pic != ''">`pic`,</if>
+			<if test="entity.parentId != null">`parent_id`,</if>
+			<if test="entity.createTime != null">`create_time`,</if>
+			<if test="entity.updateTime != null">`update_time`,</if>
+			<if test="entity.isDeleted != null">`is_deleted`,</if>
+		</trim>
+        )
+        values (
+		<trim suffixOverrides=",">
+			<if test="entity.name != null and entity.name != ''">#{entity.name},</if>
+			<if test="entity.pic != null and entity.pic != ''">#{entity.pic},</if>
+			<if test="entity.parentId != null">#{entity.parentId},</if>
+            <if test="entity.createTime != null">#{entity.createTime},</if>
+            <if test="entity.updateTime != null">#{entity.updateTime},</if>
+            <if test="entity.isDeleted != null">#{entity.isDeleted},</if>
+		</trim>
+        )
+    </insert>
+	
+	<update id="update" parameterType="com.example.objcoach.entity.Category">
+        update category
+        set
+		<trim suffixOverrides=",">
+			<if test="entity.name != null and entity.name != ''">`name` = #{entity.name},</if>
+			<if test="entity.pic != null and entity.pic != ''">`pic` = #{entity.pic},</if>
+			<if test="entity.parentId != null">`parent_id` = #{entity.parentId},</if>
+			<if test="entity.createTime != null">`create_time` = #{entity.createTime},</if>
+			<if test="entity.updateTime != null">`update_time` = #{entity.updateTime},</if>
+			<if test="entity.isDeleted != null">`is_deleted` = #{entity.isDeleted},</if>
+		</trim>
+        where id = #{entity.id} and is_deleted = 0 limit 1
+    </update>
+
+	<select id="getList" resultType="com.example.objcoach.entity.Category">
+		select * from category
+		where is_deleted = 0
+		<if test="keyword != null">
+			and name like CONCAT('%', #{keyword}, '%')
+		</if>
+		<if test="ids != null and ids.size > 0">
+			and id in
+			<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+		</if>
+		order by id
+		<if test="limit == true ">
+			limit 99
+		</if>
+	</select>
+
+	<select id="getListByParent" resultType="com.example.objcoach.entity.Category">
+		select * from category
+		where is_deleted = 0
+		<if test="keyword != null">
+			and name like CONCAT('%', #{keyword}, '%')
+		</if>
+		<if test="parentIds != null and parentIds.size > 0">
+			and parent_id in
+			<foreach item="id" index="index" collection="parentIds" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+		</if>
+		order by id
+	</select>
+
+	<select id="getFirstList" resultType="com.example.objcoach.entity.Category">
+		select * from category
+		where is_deleted = 0 and parent_id is null
+		<if test="keyword != null">
+			and name like CONCAT('%', #{keyword}, '%')
+		</if>
+	</select>
+</mapper>

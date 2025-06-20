@@ -28,29 +28,41 @@
         <druid.version>1.2.20</druid.version>
         <jbcrypt.version>0.4</jbcrypt.version>
         <easyexcel.version>4.0.3</easyexcel.version>
+        <commonsio.version>2.16.1</commonsio.version>
         <aliyun-sdk-oss.version>3.17.4</aliyun-sdk-oss.version>
-        <commons-imaging.version>1.0-alpha2</commons-imaging.version>
         <dysmsapi20170525.version>4.1.0</dysmsapi20170525.version>
+        <fastjson.version>2.0.32</fastjson.version>
+        <lombok.version>1.18.22</lombok.version>
         <clouddemo.version>0.0.1-SNAPSHOT</clouddemo.version>
     </properties>
 
     <!-- <parent> 代表子模块继承父模块，而<module>代表父模块管理子模块-->
     <modules>
+<!--        启动类模块-->
         <module>server</module>
-        <module>provider</module>
-        <module>consumer</module>
-        <module>common</module>
-        <module>codegenerator</module>
-        <module>feign</module>
-        <module>file</module>
-        <module>web-common</module>
-        <module>coach</module>
-        <module>excel</module>
-        <module>master-slave-datasource</module>
+        <module>consumer-app</module>
+        <module>consumer-console</module>
+        <module>provider-coach</module>
+        <module>provider-user</module>
+
+<!--        两个独立的模块-->
         <module>message</module>
-        <module>redis</module>
-        <module>user</module>
+        <module>file</module>
+
+<!--        自定义依赖库-->
         <module>mq</module>
+        <module>common</module>
+        <module>master-slave-datasource</module>
+        <module>redis</module>
+        <module>favicon</module>
+        <module>global-exception-handler</module>
+
+<!--        代码生成器-->
+        <module>codegenerator</module>
+
+<!--        拆分模块用到的实体类-->
+        <module>obj-coach</module>
+        <module>obj-user</module>
     </modules>
 
     <dependencyManagement>
@@ -86,15 +98,16 @@
                 <artifactId>easyexcel</artifactId>
                 <version>${easyexcel.version}</version>
             </dependency>
+<!--            easyexcel4.0.4下依赖版本冲突commons-io 2.15.0和commons-io 2.16.1，排除后显示指定-->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commonsio.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.aliyun.oss</groupId>
                 <artifactId>aliyun-sdk-oss</artifactId>
                 <version>${aliyun-sdk-oss.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-imaging</artifactId>
-                <version>${commons-imaging.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.aliyun</groupId>
@@ -102,13 +115,18 @@
                 <version>${dysmsapi20170525.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.example</groupId>
-                <artifactId>common</artifactId>
-                <version>${clouddemo.version}</version>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.example</groupId>
-                <artifactId>feign</artifactId>
+                <artifactId>common</artifactId>
                 <version>${clouddemo.version}</version>
             </dependency>
             <dependency>
@@ -123,14 +141,37 @@
             </dependency>
             <dependency>
                 <groupId>com.example</groupId>
-                <artifactId>web-common</artifactId>
+                <artifactId>mq</artifactId>
                 <version>${clouddemo.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.example</groupId>
-                <artifactId>mq</artifactId>
+                <artifactId>favicon</artifactId>
+                <version>${clouddemo.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.example</groupId>
+                <artifactId>global-exception-handler</artifactId>
+                <version>${clouddemo.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.example</groupId>
+                <artifactId>obj-coach</artifactId>
+                <version>${clouddemo.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.example</groupId>
+                <artifactId>obj-user</artifactId>
                 <version>${clouddemo.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+    </dependencies>
 </project>
