@@ -83,4 +83,8 @@ public class TagService {
         entity.setUpdateTime((int)timestamp);
         return 1 == mapper.update(entity);
     }
+
+    public List<Tag> getAll() {
+        return mapper.getAll();
+    }
 }

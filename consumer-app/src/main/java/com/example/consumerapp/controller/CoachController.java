@@ -21,6 +21,7 @@ public class CoachController {
     @Lazy
     private CoachFeign coachFeign;
 
+
     @RequestMapping("/coach/list")
     public Response<CoachItemListVo> getCoachList(@VerifiedUser CurrentUser currentUser, @RequestParam(name = "wp", required = false) String wp,
                                                   @RequestParam(name = "keyword", required = false) String keyword) {

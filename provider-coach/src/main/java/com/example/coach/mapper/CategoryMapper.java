@@ -1,7 +1,7 @@
 package com.example.coach.mapper;
 
-import com.example.objcoach.entity.Category;
 import com.example.masterslavedatasource.DataSource;
+import com.example.objcoach.entity.Category;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -44,4 +44,8 @@ public interface CategoryMapper {
 
 	@Update("update category set is_deleted = 1, update_time = #{timestamp} where id = #{id} or parent_id = #{id}")
 	int deleteHierarchy(@Param("id") Long id, @Param("timestamp") Integer timestamp);
+
+	@DataSource("slave")
+	@Select("select * from category WHERE is_deleted = 0")
+	List<Category> getAll();
 }

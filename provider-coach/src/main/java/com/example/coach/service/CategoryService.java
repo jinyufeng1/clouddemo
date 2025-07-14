@@ -153,4 +153,8 @@ public class CategoryService {
             leafItemIds.add(parentId);
         }
     }
+
+    public List<Category> getAll() {
+        return mapper.getAll();
+    }
 }

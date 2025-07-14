@@ -1,4 +1,4 @@
-package com.example.coach.controller;
+package com.example.coach.middle;
 
 import com.example.coach.service.CategoryService;
 import com.example.coach.service.CoachService;
@@ -31,6 +31,6 @@ public class MiddleController {
 
     @RequestMapping("/coach/info")
     public Response<List<Coach>> getCoachList(@RequestParam Integer page) {
-        return new Response<>(1001, coachService.getPageList(page, null));
+        return new Response<>(1001, coachService.getPageList(page, null, null));
     }
 }

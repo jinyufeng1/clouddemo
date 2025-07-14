@@ -1,7 +1,7 @@
 package com.example.coach.mapper;
 
-import com.example.objcoach.entity.Tag;
 import com.example.masterslavedatasource.DataSource;
+import com.example.objcoach.entity.Tag;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -35,4 +35,8 @@ public interface TagMapper {
 
 	@DataSource("slave")
     List<Tag> getByNames(@Param("names") List<String> names);
+
+	@DataSource("slave")
+	@Select("select * from tag WHERE is_deleted = 0")
+	List<Tag> getAll();
 }

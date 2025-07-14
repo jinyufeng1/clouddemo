@@ -1,4 +1,4 @@
-package com.example.coach.controller.console;
+package com.example.coach.console.controller;
 
 import com.example.objcoach.CategoryListToTree;
 import com.example.coach.service.CategoryService;
@@ -30,6 +30,7 @@ public class ConsoleCategoryController {
     @RequestMapping("/category/add")
     public Response<Long> addCategory(@RequestParam("name") String name, @RequestParam(value = "icon", required = false) String icon, @RequestParam(value = "parentId") Long parentId) {
         Long categoryId = categoryService.edit(new EditCategoryDTO(null, name, icon, parentId));
+        // todo es
         return new Response<>(1001, categoryId);
     }
 
@@ -44,6 +45,8 @@ public class ConsoleCategoryController {
 
             //为解决循环依赖，将要删除的目标id发送给mq异步处理
             rabbitTemplate.convertAndSend("delete_coach_by_catagoryId", id);
+
+            // todo es
         }
         return new Response<>(1001, ret);
     }
@@ -51,6 +54,7 @@ public class ConsoleCategoryController {
     @RequestMapping("/category/update")
     public Response<Long> updateCategory(@RequestParam("id") Long id, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "icon", required = false) String icon, @RequestParam(value = "parentId", required = false) Long parentId) {
         Long categoryId = categoryService.edit(new EditCategoryDTO(id, name, icon, parentId));
+        // todo es
         return new Response<>(1001, categoryId);
     }
 

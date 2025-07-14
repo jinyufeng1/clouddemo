@@ -15,19 +15,30 @@ import org.springframework.stereotype.Component;
 @Order(1)
 @Component
 public class DataSourceAspect {
+//    @annotation 匹配所有加了注解的方法
+//    @within 匹配所有加了注解的类中所有的方法
     @Pointcut("@annotation(com.example.masterslavedatasource.DataSource) || @within(com.example.masterslavedatasource.DataSource)")
     public void dsPointCut() {}
 
     @Around("dsPointCut()")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         DataSource dataSource = getDataSource(joinPoint);
-        if (dataSource != null) {
-            DynamicDataSourceContextHolder.setDataSourceType(dataSource.value());
+        // 为了代码的健壮性和容错性
+        if (dataSource == null) {
+            throw new RuntimeException("未在方法或类上找到 DataSource 注解");
         }
+
+        DynamicDataSourceContextHolder.setDataSourceType(dataSource.value());
         try {
             // 在调用正式方法前如果设置了key， 动态数据源会切换key
             return joinPoint.proceed();
-        } finally {
+        }
+        catch (Throwable throwable)
+        {
+            throwable.printStackTrace();
+            throw throwable;
+        }
+        finally {
             DynamicDataSourceContextHolder.clearDataSourceType();
         }
     }

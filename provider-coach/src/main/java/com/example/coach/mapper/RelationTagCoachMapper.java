@@ -1,8 +1,8 @@
 package com.example.coach.mapper;
 
+import com.example.masterslavedatasource.DataSource;
 import com.example.objcoach.entity.RelationTagCoach;
 import com.example.objcoach.entity.Tag;
-import com.example.masterslavedatasource.DataSource;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -38,4 +38,9 @@ public interface RelationTagCoachMapper {
 	List<Tag> getTagByCoachId(Long coachId);
 
 	int deleteByCoachId(@Param("coachId") Long coachId, @Param("tagIds") List<Long> tagIds, @Param("timestamp") Integer timestamp);
+
+	@DataSource("slave")
+	@Select("select * from relation_tag_coach WHERE is_deleted = 0")
+	List<RelationTagCoach> getAll();
+
 }

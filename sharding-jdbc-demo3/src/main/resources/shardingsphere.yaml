@@ -1,0 +1,47 @@
+mode:
+  type: Standalone
+  repository:
+    type: JDBC
+
+dataSources:
+  write_ds:
+#    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    dataSourceClassName: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+#    jdbcUrl: jdbc:mysql://localhost:3307/sharding-test?allowPublicKeyRetrieval=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true&useAffectedRows=true\
+    url: jdbc:mysql://localhost:3307/sharding-test?allowPublicKeyRetrieval=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true&useAffectedRows=true
+    username: root
+    password: 123456
+  read_ds:
+#    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    dataSourceClassName: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+#    jdbcUrl: jdbc:mysql://localhost:3308/sharding-test?allowPublicKeyRetrieval=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true&useAffectedRows=true
+    url: jdbc:mysql://localhost:3308/sharding-test?allowPublicKeyRetrieval=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true&useAffectedRows=true
+    username: root
+    password: 123456
+
+rules:
+  - !READWRITE_SPLITTING
+    dataSourceGroups:
+      ds_group:
+        writeDataSourceName: write_ds
+        readDataSourceNames:
+          - read_ds
+        loadBalancerName: round_robin
+    loadBalancers:
+      round_robin:
+        type: ROUND_ROBIN
+
+#  哪些单表需要被 ShardingSphere 管理
+#  5.4.0 之后的行为变更,为了降低启动耗时与内存占用，官方把“全量自动扫描单表”改成了按需加载
+#  只有“单表”（即未分片、未加密、未脱敏的普通表）才需要
+#  只要这张表已经出现在 !SHARDING / !ENCRYPT / !MASK 等规则里，就不需要再写 !SINGLE
+  - !SINGLE
+    tables:
+      - "*.*"
+
+props:
+  sql-show: true
+
+

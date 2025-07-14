@@ -98,4 +98,8 @@ public class RelationTagCoachService {
         long timestamp = System.currentTimeMillis() / 1000;
         return 1 <= mapper.deleteByCoachId(coachId, delTagIds, (int)timestamp);
     }
+
+    public List<RelationTagCoach> getAll() {
+        return mapper.getAll();
+    }
 }

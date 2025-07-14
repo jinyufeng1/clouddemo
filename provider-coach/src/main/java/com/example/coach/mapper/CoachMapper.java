@@ -75,4 +75,9 @@ public interface CoachMapper {
     List<Coach> getByProperty(@Param("entity") Coach entity);
 
     int deleteByProperty(@Param("entity") Coach entity, @Param("timestamp") Integer timestamp);
+
+    @DataSource("slave")
+    @Select("select * from coach WHERE is_deleted = 0")
+    List<Coach> getAll();
+
 }

@@ -1,4 +1,4 @@
-package com.example.coach.controller.app;
+package com.example.coach.app.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.example.coach.service.CategoryService;
